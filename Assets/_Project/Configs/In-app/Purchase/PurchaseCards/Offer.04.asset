@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81640f8d9ce0f8479050bcfb181da05, type: 3}
+  m_Name: Offer.04
+  m_EditorClassIdentifier: 
+  _title: "\u041D\u0430\u0431\u043E\u0440 \u0441\u0442\u0440\u043E\u0438\u0442\u0435\u043B\u044F"
+  _description: "\u0421\u043B\u0430\u0431\u0430\u044F \u0431\u0430\u0437\u0430? \u0421
+    \u044D\u0442\u0438\u043C \u043D\u0430\u0431\u043E\u0440\u043E\u043C \u0442\u044B
+    \u043F\u043E\u0441\u0442\u0440\u043E\u0435\u0448\u044C \u0432\u0441\u0435 \u0431\u044B\u0441\u0442\u0440\u0435\u0435.
+    \u041D\u0435 \u0442\u043E\u0440\u043C\u043E\u0437\u0438!"
+  _promoSprite: {fileID: 21300000, guid: 0eb8b3110d0894b6eb62ad6bdb569a15, type: 3}
+  _price: 12
+  _discount: 0
+  _products:
+  - Card: {fileID: 11400000, guid: f060531eb753134409d71b2d683e1bc0, type: 2}
+    Amount: 90
+  - Card: {fileID: 11400000, guid: a1dc79c02c9efe046ac201af57165b7e, type: 2}
+    Amount: 35
+  - Card: {fileID: 11400000, guid: a13f53cc8fc3d4243b495545f2059524, type: 2}
+    Amount: 40
+  - Card: {fileID: 11400000, guid: 4ded5face02d18a49ac1b1690769a7ea, type: 2}
+    Amount: 80
+  - Card: {fileID: 11400000, guid: 679027134bf435a4d8615eaa05b70491, type: 2}
+    Amount: 70
+  - Card: {fileID: 11400000, guid: f1861cb3a8a7c6047a072faf5c878c87, type: 2}
+    Amount: 60
+  - Card: {fileID: 11400000, guid: 5a5c4af70aef19c44b8a48cae58ace48, type: 2}
+    Amount: 50
+  - Card: {fileID: 11400000, guid: 9d902e831502f1548bd65bb597dccfa1, type: 2}
+    Amount: 90
+  - Card: {fileID: 11400000, guid: 1fd78f2822c4a0b48b451855a8221c3d, type: 2}
+    Amount: 125
+  - Card: {fileID: 11400000, guid: 744473d67a2c3b046b465123f437fc04, type: 2}
+    Amount: 100
