@@ -1,14 +1,10 @@
 using UnityEngine;
-using Utility.DependencyInjection;
+using Infrastructure.Factory;
 
 namespace Services.ScreenSystem
 {
-    public class ScreenViewFactory
+    public class ScreenViewFactory : AbstractFactory
     {
-        #region FIELDS PRIVATE
-        [Inject] private ComponentResolver _componentResolver;
-        #endregion
-
         #region METHODS PUBLIC
         public AbstractView Create(AbstractView prefab)
         {
@@ -19,8 +15,8 @@ namespace Services.ScreenSystem
             var children = instance.GetComponentsInChildren<MonoBehaviour>(true);
             foreach (var child in children)
             {
-                _componentResolver.Resolve(child);
-                DependencyContainer.Inject(child);
+                _resolver.Resolve(child);
+                _container.Inject(child);
             }
 
             instance.gameObject.SetActive(tempState);

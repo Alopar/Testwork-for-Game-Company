@@ -5,10 +5,11 @@ using UnityEngine.AddressableAssets;
 using Services.SceneLoader;
 using Services.ScreenSystem;
 using Services.PurchaseSystem;
+using Infrastructure.Factory;
 using Utility.CoroutineRunner;
 using Utility.DependencyInjection;
 using Screens.Layers.Purchase;
-using Container = Utility.DependencyInjection.DependencyContainer;
+using DIC = Utility.DependencyInjection.DependencyContainer;
 
 namespace EntryPoint
 {
@@ -25,7 +26,7 @@ namespace EntryPoint
         #endregion
 
         #region METHODS PUBLIC
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         public static void GameInitialize()
         {
             RegisterDependencyContext();
@@ -36,24 +37,38 @@ namespace EntryPoint
         #region METHODS PRIVATE
         private static void RegisterDependencyContext()
         {
-            BindCoroutineRunner();
-            Container.Bind<ComponentResolver>().AsSingle();
-            Container.Bind<ISceneLoaderService>().To<SceneLoader>().AsSingle();
+            var container = CreateDependencySystem();
 
-            BindScreenService();
-            BindPurchaseService();
+            BindCoroutineRunner(container);
+
+            container.Bind<ISceneLoaderService>().To<SceneLoader>().AsSingle();
+
+            BindScreenService(container);
+            BindPurchaseService(container);
         }
 
-        private static void BindCoroutineRunner()
+        private static DIC CreateDependencySystem()
+        {
+            var container = new DIC();
+            var resolver = new ComponentResolver();
+
+            AbstractDependency.Initialization(container);
+            AbstractFactory.Initialization(container, resolver);
+            AbstractBootstrapper.Initialization(container, resolver);
+
+            return container;
+        }
+
+        private static void BindCoroutineRunner(DIC container)
         {
             var gameObject = new GameObject("[CoroutineRunner]");
             var coroutineRunner = gameObject.AddComponent<CoroutineRunner>();
             GameObject.DontDestroyOnLoad(coroutineRunner);
 
-            Container.Bind<ICoroutineRunner>().FromInstance(coroutineRunner);
+            container.Bind<ICoroutineRunner>().FromInstance(coroutineRunner);
         }
 
-        private static void BindScreenService()
+        private static void BindScreenService(DIC container)
         {
             var screenPrefabs = new List<AbstractView>();
             Addressables.LoadAssetsAsync<GameObject>(SCREENS_ASSET_LABEL, (asset) => {
@@ -63,19 +78,19 @@ namespace EntryPoint
                 }
             }).WaitForCompletion();
 
-            Container.Bind<ScreenViewFactory>();
-            Container.Bind<ScreenPresenterFactory>();
-            Container.Bind<IScreenService>().FromInstance(new ScreenSystem(screenPrefabs));
+            container.Bind<ScreenViewFactory>();
+            container.Bind<ScreenPresenterFactory>();
+            container.Bind<IScreenService>().FromInstance(new ScreenSystem(screenPrefabs));
         }
 
-        private static void BindPurchaseService()
+        private static void BindPurchaseService(DIC container)
         {
             var purchaseSO = new List<PurchaseCard>();
             Addressables.LoadAssetsAsync<ScriptableObject>(PURCHASE_ASSET_LABEL, (asset) => {
                 purchaseSO.Add(asset as PurchaseCard);
             }).WaitForCompletion();
 
-            Container.Bind<IPurchaseService>().FromInstance(new PurchaseSystem(purchaseSO));
+            container.Bind<IPurchaseService>().FromInstance(new PurchaseSystem(purchaseSO));
         }
 
         private static void LoadBootstrapScene()

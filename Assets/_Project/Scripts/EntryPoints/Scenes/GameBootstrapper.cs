@@ -6,7 +6,7 @@ using Utility.DependencyInjection;
 namespace EntryPoint
 {
     [DefaultExecutionOrder(-100)]
-    public class GameBootstrapper : MonoBehaviour
+    public class GameBootstrapper : AbstractBootstrapper
     {
         #region FIELDS PRIVATE
         private const string SYSTEMS_ASSET_LABEL = "systems";
@@ -14,19 +14,11 @@ namespace EntryPoint
         [Inject] private ISceneLoaderService _sceneLoaderService;
         #endregion
 
-        #region UNITY CALLBACKS
-        private void Awake()
+        #region METHODS PRIVATE
+        protected override void InitializeScene()
         {
-            SelfResolve();
             InitializeSystems();
             LoadGameScene();
-        }
-        #endregion
-
-        #region METHODS PRIVATE
-        private void SelfResolve()
-        {
-            DependencyContainer.Inject(this);
         }
 
         private void InitializeSystems()

@@ -45,7 +45,7 @@ namespace Utility.DependencyInjection
         private TContract CreateInstance(Type type)
         {
             var obj = FormatterServices.GetUninitializedObject(type);
-            DependencyContainer.Inject(obj);
+            _container.Inject(obj);
             type.GetConstructor(Type.EmptyTypes).Invoke(obj, null);
 
             return (TContract)obj;
@@ -67,7 +67,7 @@ namespace Utility.DependencyInjection
 
         public Dependency<TContract> FromInstance(TContract instance)
         {
-            DependencyContainer.Inject(instance);
+            _container.Inject(instance);
             _instanceType = instance.GetType();
             _instance = instance;
             _isSingleton = true;

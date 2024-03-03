@@ -14,7 +14,7 @@ namespace Services.ScreenSystem
         private readonly List<AbstractView> _viewPrefabs;
 
         private Transform _holder;
-        private Dictionary<ScreenType, IScreenPresenter> _presenters = new Dictionary<ScreenType, IScreenPresenter>();
+        private Dictionary<ScreenType, IScreenPresenter> _presenters = new();
         #endregion
 
         #region EVENTS

@@ -13,7 +13,22 @@ namespace EntryPoint
         #endregion
 
         #region FIELDS PRIVATE
-        [Inject] private ComponentResolver _componentResolver;
+        private static DependencyContainer _container;
+        private static ComponentResolver _resolver;
+        #endregion
+
+        #region METHODS PUBLIC
+        public static void Initialization(DependencyContainer container, ComponentResolver resolver)
+        {
+            _container = container;
+            _resolver = resolver;
+        }
+
+        [ContextMenu("FIND DEPENDANTS")]
+        public void FindDependants()
+        {
+            _dependants = FindObjectsOfType<MonoBehaviour>().Where(e => e is IDependant).ToList();
+        }
         #endregion
 
         #region UNITY CALLBACKS
@@ -32,7 +47,7 @@ namespace EntryPoint
         #region METHODS PRIVATE
         private void SelfResolve()
         {
-            DependencyContainer.Inject(this);
+            _container.Inject(this);
         }
 
         private void ResolveDependency()
@@ -42,21 +57,13 @@ namespace EntryPoint
                 var children = dependant.GetComponentsInChildren<MonoBehaviour>(true);
                 foreach (var child in children)
                 {
-                    DependencyContainer.Inject(child);
-                    _componentResolver.Resolve(child);
+                    _container.Inject(child);
+                    _resolver.Resolve(child);
                 }
             }
         }
 
         protected abstract void InitializeScene();
-        #endregion
-
-        #region METHODS PUBLIC
-        [ContextMenu("FIND DEPENDANTS")]
-        public void FindDependants()
-        {
-            _dependants = FindObjectsOfType<MonoBehaviour>().Where(e => e is IDependant).ToList();
-        }
         #endregion
     }
 }

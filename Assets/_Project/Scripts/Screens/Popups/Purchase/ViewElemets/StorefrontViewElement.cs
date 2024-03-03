@@ -11,7 +11,7 @@ namespace Screens.Layers.Purchase
         #endregion
 
         #region FIELDS PRIVATE
-        private List<ProductPresenter> _presenters = new List<ProductPresenter>();
+        private List<ProductPresenter> _presenters = new();
         #endregion
 
         #region METHODS PUBLIC

@@ -1,10 +1,10 @@
 using Screens.Layers.Main;
 using Screens.Layers.Purchase;
-using Utility.DependencyInjection;
+using Infrastructure.Factory;
 
 namespace Services.ScreenSystem
 {
-    public class ScreenPresenterFactory
+    public class ScreenPresenterFactory : AbstractFactory
     {
         #region METHODS PUBLIC
         public IScreenPresenter Create(ScreenType screenType, AbstractView view)
@@ -20,7 +20,7 @@ namespace Services.ScreenSystem
                     presenter = new PurchasePresenter(view as PurchaseView);
                     break;
             }
-            DependencyContainer.Inject(presenter);
+            _container.Inject(presenter);
 
             return presenter;
         }
